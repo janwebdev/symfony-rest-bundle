@@ -47,8 +47,6 @@ class ControllerListener implements EventSubscriberInterface
             return;
         }
 
-        //todo: get real class name
-	    var_dump($controller[0]);die;
         $className = get_class($controller[0]);
         $object = new ReflectionClass($className);
         $method = $object->getMethod($controller[1]);
