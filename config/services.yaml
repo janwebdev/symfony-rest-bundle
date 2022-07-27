@@ -1,13 +1,6 @@
 services:
-    Janwebdev\RestBundle\EventListener\ViewListener:
-        class: Janwebdev\RestBundle\EventListener\ViewListener
-        arguments:
-            - '@fos_rest.view_handler'
-        tags:
-            - kernel.event_subscriber
-
     Janwebdev\RestBundle\Serializer\CollectionSerializerHandler:
-        class: Sellit\RestBundle\Serializer\CollectionSerializerHandler
+        class: Janwebdev\RestBundle\Serializer\CollectionSerializerHandler
         tags:
             - jms_serializer.subscribing_handler
 
@@ -33,15 +26,22 @@ services:
         class: Janwebdev\RestBundle\Validation\ValidationExceptionThrowingBodyConverterDecorator
         decorates: fos_rest.converter.request_body
         arguments:
-            - '@rest_bundle.validation_exception_throwing_body_converter.inner'
-            - '@rest_bundle.validation_exception_factory'
+            - '@janwebdev.rest_bundle.validation_exception_throwing_body_converter.inner'
+            - '@janwebdev.rest_bundle.validation_exception_factory'
 
-    sensio_framework_extra_aop_bridge.controller.listener:
-        class: Sellit\RestBundle\EventListener\AOPFrameworkExtraBundleBridgeControllerListener
+    Janwebdev\RestBundle\EventListener\ViewListener:
+        class: Janwebdev\RestBundle\EventListener\ViewListener
+        arguments:
+            - '@fos_rest.view_handler'
         tags:
             - kernel.event_subscriber
+
+    Janwebdev\RestBundle\EventListener\ControllerListener:
+        class: Janwebdev\RestBundle\EventListener\ControllerListener
         arguments:
             - '@annotation_reader'
+        tags:
+            - kernel.event_subscriber
 
     Janwebdev\RestBundle\EventListener\ExceptionListener:
         arguments:
