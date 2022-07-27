@@ -1,0 +1,51 @@
+services:
+    Janwebdev\RestBundle\EventListener\ViewListener:
+        class: Janwebdev\RestBundle\EventListener\ViewListener
+        arguments:
+            - '@fos_rest.view_handler'
+        tags:
+            - kernel.event_subscriber
+
+    Janwebdev\RestBundle\Serializer\CollectionSerializerHandler:
+        class: Sellit\RestBundle\Serializer\CollectionSerializerHandler
+        tags:
+            - jms_serializer.subscribing_handler
+
+    jms_serializer.metadata.typed_property_driver:
+        decorates: jms_serializer.metadata.chain_driver
+        class: Janwebdev\RestBundle\Serializer\TypedPropertyMetadataDriverDecorator
+        arguments:
+            - '@jms_serializer.metadata.typed_property_driver.inner'
+            - '@jms_serializer.type_parser'
+
+    Janwebdev\RestBundle\Exception\DTO\ExceptionDTOFactory: ~
+
+    Janwebdev\RestBundle\Exception\Controller\ExceptionController:
+        arguments:
+            - '@Janwebdev\RestBundle\Exception\DTO\ExceptionDTOFactory'
+        tags:
+            - controller.service_arguments
+
+    janwebdev.rest_bundle.validation_exception_factory:
+        class: Janwebdev\RestBundle\Validation\ValidationExceptionFactory
+
+    janwebdev.rest_bundle.validation_exception_throwing_body_converter:
+        class: Janwebdev\RestBundle\Validation\ValidationExceptionThrowingBodyConverterDecorator
+        decorates: fos_rest.converter.request_body
+        arguments:
+            - '@rest_bundle.validation_exception_throwing_body_converter.inner'
+            - '@rest_bundle.validation_exception_factory'
+
+    sensio_framework_extra_aop_bridge.controller.listener:
+        class: Sellit\RestBundle\EventListener\AOPFrameworkExtraBundleBridgeControllerListener
+        tags:
+            - kernel.event_subscriber
+        arguments:
+            - '@annotation_reader'
+
+    Janwebdev\RestBundle\EventListener\ExceptionListener:
+        arguments:
+            $exceptionDTOFactory: '@Janwebdev\RestBundle\Exception\DTO\ExceptionDTOFactory'
+            $appEnv: '%env(APP_ENV)%'
+        tags:
+            - { name: kernel.event_subscriber }

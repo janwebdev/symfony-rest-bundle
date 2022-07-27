@@ -1,0 +1,33 @@
+fos_rest:
+    body_listener: true
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: !php/const Janwebdev\RestBundle\Validation\ValidationExceptionThrowingBodyConverterDecorator::VALIDATION_ERRORS_ARGUMENT_NAME
+    serializer:
+        serialize_null: true
+    exception:
+        enabled: true
+    view:
+        formats:
+            json: true
+    format_listener:
+        rules:
+            - { path: '^/swagger$', priorities: ['html'], fallback_format: html, prefer_extension: false }
+            - { path: '^/audit', priorities: ['html'], fallback_format: html, prefer_extension: false }
+            - { path: '^/', priorities: ['json'], fallback_format: json, prefer_extension: false }
+    service:
+        serializer: fos_rest.serializer.jms
+jms_serializer:
+    handlers:
+        datetime:
+            default_format: U
+sensio_framework_extra:
+    router:
+        annotations: false
+    request:
+        converters: true
+        disable: ['doctrine.orm', 'datetime']
+framework:
+    property_info:
+        enabled: true

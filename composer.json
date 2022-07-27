@@ -1,0 +1,60 @@
+{
+    "name": "janwebdev/symfony-rest-bundle",
+    "description": "Symfony bundle for REST controllers",
+    "keywords": ["symfony", "bundle", "rest", "jms", "php"],
+    "type": "symfony-bundle",
+    "homepage": "https://github.com/janwebdev/symfony-rest-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yan Rogozinsky",
+            "email": "janwebdev@gmail.com",
+            "role": "PHP developer"
+        }
+    ],
+    "require":{
+        "php": "^7.4|^8.0|^8.1",
+        "ext-json": "*",
+        "doctrine/common": "^3.3",
+        "doctrine/dbal": "^3.3",
+        "friendsofsymfony/rest-bundle": "^3.3",
+        "jms/serializer-bundle": "^4.0",
+        "nelmio/api-doc-bundle": "^4.9",
+        "sensio/framework-extra-bundle": "^6.2",
+        "symfony/asset": "^6.0",
+        "symfony/twig-bundle": "^6.0",
+        "symfony/framework-bundle": "^6.0",
+        "symfony/yaml": "^6.0",
+        "symfony/validator": "^6.0",
+        "symfony/options-resolver": "^6.0",
+        "symfony/serializer-pack": "^1.1"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Janwebdev\\RestBundle\\":  "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Janwebdev\\RestBundle\\Tests\\":  "tests/"
+        }
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": "true",
+            "require": "^6.0"
+        },
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
